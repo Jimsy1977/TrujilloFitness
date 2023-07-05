@@ -41,5 +41,5 @@ class MembershipPlan(models.Model):
     plan=models.CharField(max_length=185)
     price=models.IntegerField(max_length=55)
 
-    def __int__(self):
-        return self.id
+    def __str__(self):
+        return self.plan
