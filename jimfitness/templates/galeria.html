@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+    Galeria
+{% endblock title %}
+{% block head %}
+<h1>Galeria de Fotos</h1>
+{% endblock head %}
+{% block body %}
+    <div class="container mt-2">
+        <br><Center>
+            <h1>Galeria</h1>
+        </Center><br>
+        <div class="row">
+            {% for post in posts  %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ post.img.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">Creada el: {{ post.timeStamp }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <br>
+            <br>
+        </div>
+    </div>
+{% endblock body %}

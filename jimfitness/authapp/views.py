@@ -2,11 +2,44 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from authapp.models import Contact,MembershipPlan,Trainer,Inscripcion
+from authapp.models import Contact,MembershipPlan,Trainer,Inscripcion,Asistencia,Gallery
 
 # Create your views here.
 def Home(request):
     return render(request,"index.html")
+
+def galeria(request):
+    posts=Gallery.objects.all()
+    context={"posts":posts}
+    return render(request,"galeria.html",context)
+
+def asistencia(request):
+    if not request.user.is_authenticated:
+        messages.warning(request,"Please Login and Try Again")
+        return redirect('/login')
+    SelectTrainer=Trainer.objects.all()
+    context={"SelectTrainer":SelectTrainer}
+    if request.method=="POST":
+        phonenumber=request.POST.get('PhoneNumber')
+        Login=request.POST.get('logintime')
+        Logout=request.POST.get('loginout')
+        SelectWorkout=request.POST.get('workout')
+        TrainedBy=request.POST.get('trainer')
+        query=Asistencia(phonenumber=phonenumber,Login=Login,Logout=Logout,SelectWorkout=SelectWorkout,TrainedBy=TrainedBy)
+        query.save()
+        messages.warning(request,"Se guardo la asistencia satisfactoriamente")
+        return redirect('/asistencia')
+    return render(request,"asistencia.html",context)
+
+def perfil(request):
+    if not request.user.is_authenticated:
+        messages.warning(request,"Please Login and Try Again")
+        return redirect('/login')
+    user_phone=request.user
+    posts=Inscripcion.objects.filter(PhoneNumber=user_phone)
+    asistencia=Asistencia.objects.filter(phonenumber=user_phone)
+    context={"posts":posts,"asistencia":asistencia}
+    return render(request,"perfil.html",context)
 
 def signup(request):
     if request.method=="POST":
@@ -87,7 +120,7 @@ def contact(request):
 
 def inscripcion(request):
     if not request.user.is_authenticated:
-        messages.warning(request,"Please Login and Try Again")
+        messages.warning(request,"Porfavor Inicia Sesión e intenta nuevamente")
         return redirect('/login')
 
     Membership=MembershipPlan.objects.all()
