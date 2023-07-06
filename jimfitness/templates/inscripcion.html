@@ -56,7 +56,7 @@
                                class="form-control mt-2"
                                value="{{ user.username }}"
                                name="PhoneNumber"
-                               placeholder="Enter Your Number"
+                               placeholder="Ingresa tu número"
                                required/>
                     </div>
                     <div class="form-group">
@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <select class="form-control mt-2" id="member" name="member"  required>
                             <option selected>
-                                Seleccione Plan
+                                Seleccione Membresia
                             </option>
                             {% for  p in Membership %}
                                 <option value="{{ p.plan }} - {{ p.price }}">
