@@ -8,6 +8,12 @@ from authapp.models import Contact,MembershipPlan,Trainer,Inscripcion,Asistencia
 def Home(request):
     return render(request,"index.html")
 
+def historia(request):
+    return render(request,"historia.html")
+
+def servicios(request):
+    return render(request,"servicios.html")
+
 def galeria(request):
     posts=Gallery.objects.all()
     context={"posts":posts}
